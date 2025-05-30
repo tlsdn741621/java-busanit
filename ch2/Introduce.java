@@ -1,6 +1,6 @@
-package ch2;
+package ch2; //package 폴더명
 
-public class Hello2 {
+public class Introduce {
     // 정적인 메소드 정의
     // 메소드1 결과 변환값의 타입 : int
      public static int sum (int n, int m) {
@@ -32,6 +32,17 @@ public class Hello2 {
         return "저는 " + name + " 입니다.\n" +
                "제 전화번호 : " + phone + "이고,\n" +
                "이메일 : " + email + " 입니다.";
+    }
+
+    // 정적 메소드 7, 퀴즈4 풀이, 본인 소개하는 메소드
+    public static String introduce(String name, String phone, String email) {
+        String introduce_myself = "저는" + name + "입니다. 제 전화번호 : " + phone + "이고, 이메일 : " + email + "입니다";
+        return introduce_myself;
+    }
+
+    public static String favorite(String food, String hobby, String game) {
+        String favorite_myself = "제가 좋아하는 음식은 : " + food + "입니다. \n제 취미 : " + hobby + "이고, \n좋아하는 게임 : " + game + "입니다.";
+        return favorite_myself;
     }
 
     // 정적인 메소드, 이름 main
@@ -70,7 +81,8 @@ public class Hello2 {
         // 소수로 -> 실수로 표현은 어떻게 할까?
         // 데이터 타입에 대해서
         // 기본형, 
-        // byte, int short, float, long, double, char, boolean 등등
+        // byte, int(정수, 기본값, 4바이트) short, float(실수 4바이트) 
+        // long(정수 8바이트),double, char, boolean 등등
         // 참조형 기본형을 제외한 나머지
         // 객체(Object), 배열(Array), 문자열(String) emd
 
@@ -102,5 +114,26 @@ public class Hello2 {
         // 제 전화번호 : {전화번호}이고,
         // 이메일 : {이메일} 입니다.
         // 출력 하는 예제해보기
+
+        // 위에서 정의한 함수를 사용하기
+        // 함수 사용 2, 순서 2
+        String introduce_info = introduce("강신우", "010-1234-4567", "kang@naver.com");
+        System.out.println(introduce_info);
+
+        // 퀴즈
+        // 내가 좋아하는 음식, 취미, 게임 등 알려주는 기능
+        // 좋아하는 음식, 취미, 게임 매개변수가 3개 정의
+        // 출력
+        //
+        // 제가 좋아하는 음식은 : {음식이름} 입니다
+        // 제 취미 : {취미명}이고,
+        // 좋아하는 게임 : {게임명} 입니다
+        // 출력하는 예제 해보기
+
+        // 해야할 일,
+        // 함수 정의
+        // 함수 사용
+        String favorite_info = favorite("피자", "운동", "롤");
+        System.out.println(favorite_info);
     }
 }

@@ -1,5 +1,7 @@
 package ch2; // packge 폴더
 
+// import util.UserService;
+
 // public : 접근 지정자, 파란색으로 표기 되는 부분은 예약어 키워드,
 // 변수명으로 따로 사용안됨.
 // 파일명 .java -> 파일 = 클래스명, 주의사항) 클래스명 시작은 대문자
@@ -46,5 +48,7 @@ public class Hello { // class : 변수, 상수, 함수 기능들의 묶음
         // result2 에 담아서 출력하기
         int result2 = multiple(100,200);
         System.out.println("곱하기 값 출력 : " + result2);
+
+        // 다른 클래스 파일에서, 우리가 만들었던 UserService 클래스를 불러와서, 콘솔로 회원 가입 하는 기능 구현.
     }
 }
