@@ -3,9 +3,9 @@ package user_mini_project;
 import java.util.Scanner;
 
 import ch2.OperConditionTest;
-import util.UserService;
+import util.user.UserService;
 
-public class MainClass {
+public class MainClass_if_case {
     public static void main(String[] args) {
         // 공용으로 사용할 스캐너 생성
         Scanner scanner = new Scanner(System.in);
