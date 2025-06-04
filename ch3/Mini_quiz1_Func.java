@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import util.date.DateUtil;
 
-public class Exs_ch3_2_quiz {
+public class Mini_quiz1_Func {
     static final int MAX_BOOKS = 100;
     static String[] titles = new String[MAX_BOOKS];
     static String[] authors = new String[MAX_BOOKS];

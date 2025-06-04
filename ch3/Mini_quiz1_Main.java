@@ -2,7 +2,7 @@ package ch3;
 
 import java.util.Scanner;
 
-public class Exs_ch3_2_quiz_Main {
+public class Mini_quiz1_Main {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
@@ -18,22 +18,22 @@ public class Exs_ch3_2_quiz_Main {
             scanner.nextLine();
             switch (menu) {
                 case 1:
-                    Exs_ch3_2_quiz.addBook(scanner);
+                    Mini_quiz1_Func.addBook(scanner);
                     break;
                 case 2:
-                    Exs_ch3_2_quiz.viewBooks();
+                    Mini_quiz1_Func.viewBooks();
                     break;
                 case 3:
-                    Exs_ch3_2_quiz.updateBook(scanner);
+                    Mini_quiz1_Func.updateBook(scanner);
                     break;
                 case 4:
-                    Exs_ch3_2_quiz.deleteBook(scanner);
+                    Mini_quiz1_Func.deleteBook(scanner);
                     break;
                 case 5:
-                    Exs_ch3_2_quiz.searchBook(scanner);
+                    Mini_quiz1_Func.searchBook(scanner);
                     break;
                 case 6:
-                    Exs_ch3_2_quiz.addDummyBooks();
+                    Mini_quiz1_Func.addDummyBooks();
                     System.out.println("더미 데이터 5개가 추가되었습니다.");
                     break;
                 case 0:
