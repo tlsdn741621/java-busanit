@@ -34,6 +34,10 @@ public class Exs_ch3_Main {
                     Exs_ch3_2_user_array_doc.addDummyUsers(); // 더미 데이터 추가
                     System.out.println("더미 데이터 5개가 추가되었습니다.");
                     break;
+                case 6:
+                    Exs_ch3_2_user_array_doc.searchUser(scanner); // 회원 검색
+                    System.out.println("회원 검색 기능이 실행되었습니다.");
+                    break;
                 case 0:
                     System.out.println("프로그램을 종료합니다.");
                     break;
