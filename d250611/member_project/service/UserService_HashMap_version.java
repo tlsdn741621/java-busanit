@@ -1,20 +1,27 @@
-package d250611.service;
+package d250611.member_project.service;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
-import util.date.DateUtil;
-import util.model.Member;
+import d250611.member_project.model.Member;
+import d250611.member_project.util.DateUtil;
 
-public class UserService_ArrayList_version {
+public class UserService_HashMap_version {
     static final int MAX_USERS = 100; // 최대 회원 수
 
     // Member 클래스를 담아 둘 배열 생성. 크기는 동일하게 100명으로 정하기.
-    // 변경1, 기존 배열 -> 컬렉션으로 변경
+    // 변경1, 기존 배열 -> 컬렉션으로 변경,
     // 전
     // static Member[] members = new Member[MAX_USERS];
     // 후
-    private static ArrayList<Member> members = new ArrayList<>();
+    // private static ArrayList<Member> members = new ArrayList<>();
+
+    // 변경 HashMap 1, ArrayList -> HashMap 형태로 변경
+    // 전
+    // private static ArrayList<Member> members = new ArrayList<>();
+    // 후
+    private static HashMap<Integer, Member> members = new HashMap<>();
     static int userCount = 0; // 현재 등록된 회원 수
 
     // 회원 추가 메서드
@@ -34,11 +41,17 @@ public class UserService_ArrayList_version {
 
             Member member = new Member(name, password, email, registrationDate);
 
-            // 변경2, 기존 배열에서 추가 -> 컬렉션 에서 추가
-            //전
+            // 변경2. 기존 배열에서 추가 -> 컬렉션에서 추가
+            // 전
             // members[userCount] = member;
-            //후
-            members.add(member);
+            // 후
+            // members.add(member);
+
+            // 변경 HashMap 2, ArrayList -> HashMap 형태로 변경
+            // 전
+            // members.add(member);
+            // 후
+            members.put(userCount, member);
 
             // 회원 수 증가
             userCount++;
@@ -55,15 +68,31 @@ public class UserService_ArrayList_version {
             return; // 등록된 회원이 없을 때, 조회 기능 종료, 메서드(함수)를 나가기
         }
         System.out.println("등록된 회원 목록:");
-        // 변경3, 기존 배열에서 -> 컬렉션으로 수정
+
+        // 변경3. 기존 배열에서 -> 컬렉션으로 수정.
         // 전
         // for (int i = 0; i < userCount; i++) {
-        //     members[i].showInfo();
+        // members[i].showInfo();
         // }
         // 후
-        for (int i = 0; i < members.size(); i++) {
-            System.out.println("인덱스 번호 : " + i);
-            members.get(i).showInfo();
+        // for (int i = 0; i < members.size(); i++) {
+        // System.out.println("인덱스 번호 : " + i);
+        // members.get(i).showInfo();
+        // }
+
+        // 변경 HashMap 3, ArrayList -> HashMap 형태로 변경
+        // 전
+        // for (int i = 0; i < members.size(); i++) {
+        // System.out.println("인덱스 번호 : " + i);
+        // members.get(i).showInfo();
+        // }
+        // 후
+        // members.entrySet() -> 기능을 사용하면, 키와 값을 가지는 하나의 테이블 정보를 제공해줌.
+        // 위의 정보 테이블에서, 하나의 그룹을 (키,값)의 형태로 되어 있음.
+        for (Map.Entry<Integer, Member> entry : members.entrySet()) {
+            System.out.println("인덱스 번호: " + entry.getKey());
+            System.out.println("회원 정보");
+            entry.getValue().showInfo();
         }
 
     } // 회원 조회 메서드
@@ -91,16 +120,22 @@ public class UserService_ArrayList_version {
         String registrationDate = DateUtil.getCurrentDateTime();
 
         // 변경할 정보를 담아둘 Member 객체 생성
-        // 변경3-2, 메모, new Member(); 이런 형식이 새로운 인스턴스를 생성하는 부분이라서
+        // 변경3-2 , 메모, new Member(); 이런 형식이 새로운 인스턴스를 생성하는 부분이라서,
         Member member = new Member(name, password, email, registrationDate);
         // 해당 인덱스에 수정된 회원 정보 저장
 
-        // 변경4, 기존 member(0x100)에서, 
-        // 변경할 내용으로 수정이된 새로운 member(0x200)로 교체 작업
+        // 변경4, 기존 member(0x100)에서,
+        // 변경할 내용으로 수정이 된 새로운 member(0x200) 로 교체 작업
         // 전
         // members[index] = member;
         // 후
-        members.set(index, member);
+        // members.set(index, member);
+
+        // 변경 HashMap 4, ArrayList -> HashMap 형태로 변경
+        // 전
+        // members.set(index, member);
+        // 후
+        members.put(index, member);
 
         System.out.println("회원 정보가 수정되었습니다: " + name + ", " + email + ", "
                 + registrationDate);
@@ -125,17 +160,29 @@ public class UserService_ArrayList_version {
 
         // members[index] = null; // 해당 인덱스의 회원 정보 삭제
         // for (int i = index; i < userCount - 1; i++) {
-        //     members[i] = members[i + 1]; // 다음 인덱스의 회원 정보를 현재 인덱스로 이동
+        // members[i] = members[i + 1]; // 다음 인덱스의 회원 정보를 현재 인덱스로 이동
         // }
         // members[userCount - 1] = null; // 마지막 인덱스의 회원 정보 삭제
         // 후
         // 기존 삭제 할 회원 정보를 가져오기
+        // Member member = members.get(index);
+        // System.out.println("삭제할 회원 정보 : ");
+        // member.showInfo();
+        // // 삭제,
+        // members.remove(index);
+
+        // 변경 HashMap 5, ArrayList -> HashMap 형태로 변경
+        // 전
+        // Member member = members.get(index);
+        // System.out.println("삭제할 회원 정보 : ");
+        // member.showInfo();
+        // // 삭제,
+        // members.remove(index);
+        // 후
         Member member = members.get(index);
         System.out.println("삭제할 회원 정보 : ");
         member.showInfo();
-        // 삭제,
         members.remove(index);
-
         // 회원 수 감소
         userCount--;
         System.out.println("회원이 삭제되었습니다.");
@@ -154,8 +201,15 @@ public class UserService_ArrayList_version {
                 // 변경6,
                 // 전
                 // members[userCount] = dummyMember;
-                //후
-                members.add(dummyMember);
+                // 후
+                // members.add(dummyMember);
+
+                // 변경 HashMap 6, ArrayList -> HashMap 형태로 변경
+                // 전
+                // members.add(dummyMember);
+                // 후
+                members.put(userCount, dummyMember);
+
                 userCount++;
             } else {
                 System.out.println("더미 회원 추가 실패: 최대 회원 수 초과");
@@ -174,19 +228,35 @@ public class UserService_ArrayList_version {
         boolean found = false;
 
         for (int i = 0; i < userCount; i++) {
-            // 변경7,
+            // 변경7
             // 전
-            // if (members[i].getName().contains(searchQuery) || members[i].getEmail().contains(searchQuery)) {
-            //     members[i].showInfo(); // 회원 정보 출력
-            //     found = true;
+            // if (members[i].getName().contains(searchQuery) ||
+            // members[i].getEmail().contains(searchQuery)) {
+            // members[i].showInfo(); // 회원 정보 출력
+            // found = true;
             // }
             // 후
+            // if (members.get(i).getName().contains(searchQuery) ||
+            // members.get(i).getEmail().contains(searchQuery)) {
+            // System.out.println("검색 결과 ");
+            // members.get(i).showInfo();
+            // found = true;
+            // }
+
+            // 전
+            // if (members.get(i).getName().contains(searchQuery) ||
+            // members.get(i).getEmail().contains(searchQuery)) {
+            // System.out.println("검색 결과 ");
+            // members.get(i).showInfo();
+            // found = true;
+            // }
+            // 후
+            // 맵에서, 해당 키에 해당하는 값의 멤버를 가져오고, 메일과 이름으로 검색 해보기
             if(members.get(i).getName().contains(searchQuery) ||
-            members.get(i).getName().contains(searchQuery)) {
-                System.out.println("검색 결과 ");
-                members.get(i).showInfo();
-                found = true;
-            }
+                members.get(i).getEmail().contains(searchQuery)) {
+                    members.get(i).showInfo();
+                    found = true;
+                }
         }
 
         if (!found) { // 검색 결과가 있을 경우, 실행이 안됨, found = true; -> false;
