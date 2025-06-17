@@ -34,3 +34,6 @@ SELECT * FROM MEMBER501 WHERE ID = 2;
 
 -- 검색 조회
 SELECT * FROM MEMBER501 WHERE NAME LIKE '%강신우%';
+
+-- 전체 조회, 아이디 기준으로 내림차순, 최신 등록일 순으로
+SELECT * FROM MEMBER501 ORDER BY id DESC;

@@ -1,4 +1,4 @@
-package d250613.web_structure.ui;
+package d250617.web_structure.ui;
 
 import javax.swing.Timer; // 수동으로 해당 패키지 위치 설정.
 

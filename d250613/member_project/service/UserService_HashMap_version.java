@@ -1,5 +1,6 @@
 package d250613.member_project.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -252,11 +253,11 @@ public class UserService_HashMap_version {
             // }
             // 후
             // 맵에서, 해당 키에 해당하는 값의 멤버를 가져오고, 메일과 이름으로 검색 해보기
-            if(members.get(i).getName().contains(searchQuery) ||
-                members.get(i).getEmail().contains(searchQuery)) {
-                    members.get(i).showInfo();
-                    found = true;
-                }
+            if (members.get(i).getName().contains(searchQuery) ||
+                    members.get(i).getEmail().contains(searchQuery)) {
+                members.get(i).showInfo();
+                found = true;
+            }
         }
 
         if (!found) { // 검색 결과가 있을 경우, 실행이 안됨, found = true; -> false;
