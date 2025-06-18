@@ -123,6 +123,7 @@ public class _4SignupFrame extends JFrame {
         // service.loadMembersFromFile();
 
         // 0617 , 변경 후
+        // 디비에서 전체 데이터를 받고 -> 메모리에 멤버 리스트에 추가
         service.loadMembersFromDB();
 
         // 새로고침 기능 호출.
@@ -141,14 +142,28 @@ public class _4SignupFrame extends JFrame {
             service.refreshTable();
         });
         // 검색
-        searchBtn.addActionListener(e -> service.searchMembers());
+        // 변경 전, 검색 호출,
+        // 0618, 검색
+        // searchBtn.addActionListener(e -> service.searchMembers());
+
+        // 변경 후, 검색 호출,
+        // 0618, 검색
+        searchBtn.addActionListener(e -> service.searchMembersDB());
         // 검색 초기화
         resetBtn.addActionListener(e -> {
             searchField.setText("");
             service.refreshTable();
         });
         // 검색어에서, 엔터를 입력해도, 실행이 되게끔.
-        searchField.addActionListener(e -> service.searchMembers());
+
+        // 검색
+        // 변경 전, 검색 호출,
+        // 0618, 검색
+        // searchField.addActionListener(e -> service.searchMembers());
+
+        // 변경 후, 검색 호출,
+        // 0618, 검색
+        searchField.addActionListener(e -> service.searchMembersDB());
 
         // 더미 데이터 기능 추가 이벤트 리스너 연결.
         dummyBtn.addActionListener(e -> service.dummyMake());
@@ -169,113 +184,76 @@ public class _4SignupFrame extends JFrame {
     }
 
     // 6) 회원 가입 입력 품, 다이얼 로그 창으로 작업, 자바버전으로
-    // private void showAddDialog() {
-    //     // 이름, 이메일, 패스워드, 입력 창(한줄 공간)
-    //     JTextField nameField = new JTextField(10);
-    //     JTextField emailField = new JTextField(15);
-    //     JTextField passwordField = new JPasswordField(10);
-
-    //     // 그리드 레이아웃을 통해서, 2열짜리 배치 작업,
-    //     // 행을 0으로(행의 갯수 자동 생성), 열 표기,
-    //     JPanel panel = new JPanel(new GridLayout(0, 2));
-    //     panel.add(new JLabel("이름 :"));
-    //     panel.add(nameField);
-
-    //     panel.add(new JLabel("이메일 :"));
-    //     panel.add(emailField);
-
-    //     panel.add(new JLabel("패스워드 :"));
-    //     panel.add(passwordField);
-
-    //     // 회원 가입 버튼 누를 경우, 확인 알림창 띄우기.
-    //     // 확인 버튼 클릭 -> JOptionPane.showConfirmDialog() -> 특정 값을 반환.
-    //     // 수락 -> 결과 OK 옵션 지정한 상수값 , 외우지, 이름으로 지정.
-    //     // 수락 -> JOptionPane.OK_OPTION
-    //     int result = JOptionPane.showConfirmDialog(
-    //             this, // 이 알림창을 어디에 나타나게 할거냐? this : 현재 윈도우 창
-    //             panel, // 사용자에게 보여줄 콘텐츠 ( JPanel )
-    //             "회원 가입", // 알림 창에서의 제목
-    //             JOptionPane.OK_CANCEL_OPTION, // 확인, 취소 버튼을 구성하는 옵션
-    //             JOptionPane.PLAIN_MESSAGE // 아이콘이 없는 일반 메시지 형식의 알림창을 의미함. 기본 알림창
-    //     );
-
-    //     // 확인 알림창에서 수락시, 데이터를 파일 저장 시스템.
-    //     if (result == JOptionPane.OK_OPTION) {
-    //         // 화면에서, 입력창에 입력 했던 데이터 들을 다 가지고 와서, 임의의 변수 담고,
-    //         // Member 클래스 형식으로 인스턴스 만들고, , 리스트 members 추가하고,
-    //         // 파일에 쓰기 작업함.
-    //         String name = nameField.getText().trim();
-    //         String email = emailField.getText().trim();
-    //         String password = passwordField.getText().trim();
-    //         String regDate = DateUtil.getCurrentDateTime();
-    //         // 값 입출력시, 유효성 체크 하기.
-    //         if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
-    //             JOptionPane.showMessageDialog(this, "모든 항목을 입력해주세요.");
-    //             // 리턴 추가 예정.
-    //             return;
-    //         }
-    //         // 입력이 다 했고,
-    //         // 인스턴스
-    //         // _10Member member = new _10Member(name, password, email, regDate);
-    //         // members.add(member);
-    //         service.addMember(null);
-    //         JOptionPane.showMessageDialog(this, "회원 가입 되었습니다.");
-    //         service.saveMembersToFile();
-    //         // 변경사항 새로고침, 즉 다 지우고, 전체 회원을 다시 그리기.
-    //         service.refreshTable();
-    //     }
-    // }
-
-    // 회원가입 순서3
     private void showAddDialog() {
-    JTextField nameField = new JTextField(10);
-    JTextField emailField = new JTextField(15);
-    JTextField passwordField = new JPasswordField(10);
-    JPanel panel = new JPanel(new GridLayout(0, 2));
-    panel.add(new JLabel("이름 :"));
-    panel.add(nameField);
+        // 이름, 이메일, 패스워드, 입력 창(한줄 공간)
+        JTextField nameField = new JTextField(10);
+        JTextField emailField = new JTextField(15);
+        JTextField passwordField = new JPasswordField(10);
 
-    panel.add(new JLabel("이메일 :"));
-    panel.add(emailField);
+        // 그리드 레이아웃을 통해서, 2열짜리 배치 작업,
+        // 행을 0으로(행의 갯수 자동 생성), 열 표기,
+        JPanel panel = new JPanel(new GridLayout(0, 2));
+        panel.add(new JLabel("이름 :"));
+        panel.add(nameField);
 
-    panel.add(new JLabel("패스워드 :"));
-    panel.add(passwordField);
+        panel.add(new JLabel("이메일 :"));
+        panel.add(emailField);
 
-    int result = JOptionPane.showConfirmDialog(
-            this,
-            panel,
-            "회원 가입",
-            JOptionPane.OK_CANCEL_OPTION,
-            JOptionPane.PLAIN_MESSAGE
-    );
+        panel.add(new JLabel("패스워드 :"));
+        panel.add(passwordField);
 
+        // 회원 가입 버튼 누를 경우, 확인 알림창 띄우기.
+        // 확인 버튼 클릭 -> JOptionPane.showConfirmDialog() -> 특정 값을 반환.
+        // 수락 -> 결과 OK 옵션 지정한 상수값 , 외우지, 이름으로 지정.
+        // 수락 -> JOptionPane.OK_OPTION
+        int result = JOptionPane.showConfirmDialog(
+                this, // 이 알림창을 어디에 나타나게 할거냐? this : 현재 윈도우 창
+                panel, // 사용자에게 보여줄 콘텐츠 ( JPanel )
+                "회원 가입", // 알림 창에서의 제목
+                JOptionPane.OK_CANCEL_OPTION, // 확인, 취소 버튼을 구성하는 옵션
+                JOptionPane.PLAIN_MESSAGE // 아이콘이 없는 일반 메시지 형식의 알림창을 의미함. 기본 알림창
+        );
+
+        // 확인 알림창에서 수락시, 데이터를 파일 저장 시스템.
         if (result == JOptionPane.OK_OPTION) {
+            // 화면에서, 입력창에 입력 했던 데이터 들을 다 가지고 와서, 임의의 변수 담고,
+            // Member 클래스 형식으로 인스턴스 만들고, , 리스트 members 추가하고,
+            // 파일에 쓰기 작업함.
             String name = nameField.getText().trim();
             String email = emailField.getText().trim();
             String password = passwordField.getText().trim();
             String regDate = DateUtil.getCurrentDateTime();
-
+            // 값 입출력시, 유효성 체크 하기.
             if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "모든 항목을 입력해주세요.");
+                // 리턴 추가 예정.
                 return;
             }
+            // 입력이 다 했고,
+            // 인스턴스
+            // _10Member member = new _10Member(name, password, email, regDate);
+            // members.add(member);
+            // 0617, 회원가입 적용 변경 전
+            // service.addMember(null);
+            // JOptionPane.showMessageDialog(this, "회원 가입 되었습니다.");
+            // service.saveMembersToFile();
 
-        // ID 생성 : DB에서 마지막 ID를 가져와서 +1 해주는 로직 필요
-            int id = service.getNewMemberId();
+            // 0617, 회원가입 적용 변경 후
+            // 1) 회원가입 화면에서 넘겨 받은 데이터 -> member 객체 생성
+            // 매개변수에서 id 부분은 큰 의미가 없다 -> 왜? 디비에 넣을 때, 필요 없어서, -> 자동생성이라서
+            _10Member member = new _10Member(1, name, email, password, regDate);
+            // 2) insert 메서드에, 입력받은 회원 정보 member 전달,
+            service.addMemberDB(member);
+            JOptionPane.showMessageDialog(this, "회원 가입 되었습니다.");
 
-            _10Member member = new _10Member(id, name, email, password, regDate);
+            // 0617 , 회원 가입 후, 변경 사항 부분에 추가
+            // 회원 가입 후, 디비에서 변경된 데이터를 다시 불러오기
+            service.loadMembersFromDB();
 
-            boolean inserted = service.signupMember(member);
-
-            if (inserted) {
-                JOptionPane.showMessageDialog(this, "회원 가입 되었습니다.");
-                service.refreshTable();
-            } else {
-                JOptionPane.showMessageDialog(this, "회원 가입에 실패했습니다.");
-            }
+            // 변경사항 새로고침, 즉 다 지우고, 전체 회원을 다시 그리기.
+            service.refreshTable();
         }
     }
-
 
     // 7) 회원 수정 창
     private void showUpdateDialog() {
@@ -287,14 +265,15 @@ public class _4SignupFrame extends JFrame {
         // 테이블 상에서, 선택된 실제 ID 값만 가져오기,
         Object value = memberTable.getValueAt(row, 0);
         System.out.println("클릭시 가져온 값 확인 테스트 : " + value);
-        // 실제 멤버의 아이디를, int 타입으로 변환
-        // 전역으로 사용할, 변환된 ID를 따로 선언
-        int member_id ;
+        // 실제 멤버의 아이디를 , int 타입으로 변환.
+        // 전역으로 사용할 , 변환된 ID를 따로 선언
+        int member_id;
         if (value instanceof Integer) {
-            member_id = ((Integer)value).intValue();
+            member_id = ((Integer) value).intValue();
             System.out.println("선택된 ID 정수화 : " + member_id);
         }
-        member_id = ((Integer)value).intValue();
+        member_id = ((Integer) value).intValue();
+        System.out.println("선택된 ID 정수화 2: " + member_id);
         // 유효성 체크.
         if (row == -1) {
             JOptionPane.showMessageDialog(this, "수정 할 회원을 선택하세요.");
@@ -303,14 +282,15 @@ public class _4SignupFrame extends JFrame {
         // 전체 회원 목록 리스트에, 해당 회원 정보를 가져오기. .
         // Member oldMember = members.get(row);
 
-        // 0617, 회원 수정 변경 전, 
-        // 단순 리스트에 등록된 순서로 데이터를 가져오고 있음
+        // 0617 , 회원 수정 변경 전,
+        // 단순 리스트에 등록된 순서로 데이터를 가져오고 있음.
         // _10Member oldMember = service.getMembers().get(row);
 
-        // 0617, 회원 수정 변경 후, 실제 데이터에서, 해당 ID 번호로 회원의 정보를 가져오기
-        // 여기서, 한명의 회원 정보를 가져오는 DAO 메서드가 필요함
-        // 추가 작업 필요함 -> 한명 회원 정보 가져오기 작업.
-        _10Member oldMember = service.getMemverOne(member_id);
+        // 0617 , 회원 수정 변경 후,
+        // 실제 데이터에서, 해당 ID 번호로 회원의 정보를 가져오기.
+        // 여기서, 한명의 회원 정보를 가져오는 DAO 메서드가 필요함.
+        // 추가 작업 필요함. -> 한명 회원 정보 가져오기 작업.
+        _10Member oldMember = service.getMemberOne(member_id);
 
         // 이름, 이메일, 패스워드, 입력 창(한줄 공간)
         // 가입시에, 새롭게 내용을 입력을 했다면,
@@ -368,7 +348,7 @@ public class _4SignupFrame extends JFrame {
             // oldMember.setName(name);
             // oldMember.setEmail(email);
             // oldMember.setPassword(password);
-            //oldMember.setRegDate(regDate);
+            // // oldMember.setRegDate(regDate);
             // service.saveMembersToFile();
             // // 변경사항 새로고침, 즉 다 지우고, 전체 회원을 다시 그리기.
             // service.refreshTable();
@@ -379,15 +359,20 @@ public class _4SignupFrame extends JFrame {
             oldMember.setEmail(email);
             oldMember.setPassword(password);
 
-            // 0617, 회원 수정 디버깅 1
-            // 디비에 수정 된 내용 반영하기 전에, 데이터 확인
+            // 0617, 회원 수정 디버깅 1,
+            // 디비에 수정 된 내용 반영하기 전에, 데이터 확인.
             System.out.println("수정 하기전 데이터 확인 : " + oldMember);
 
-            //oldMember.setRegDate(regDate);
+            // oldMember.setRegDate(regDate);
             // 2) 수정하는 메서드에, 변경할 내용의 멤버 객체 전달 + 수정할 인덱스도 같이 넘기기.!@!
             service.updateMember(oldMember);
-            // 수정한 데이터 반영하기
+            // 수정한 데이터 반영하기.
+
+            // 0617 , 회원 수정 후, 변경 사항 부분에 반영
+            // 회원 변경 후, 디비에서 변경된 데이터를 다시 불러오기
             service.loadMembersFromDB();
+
+            // 변경사항 새로고침, 즉 다 지우고, 전체 회원을 다시 그리기.
             service.refreshTable();
         }
     }
@@ -401,6 +386,23 @@ public class _4SignupFrame extends JFrame {
             JOptionPane.showMessageDialog(this, "삭제 할 회원을 선택하세요.");
             return;
         }
+
+        // 추가 작업, 0618,
+        // 삭제 작업, 기존에서 행번호가 아니라 멤버의 id 로 삭제 하기.
+        // ===================================================================
+        // 테이블 상에서, 선택된 실제 ID 값만 가져오기,
+        Object value = memberTable.getValueAt(row, 0);
+        System.out.println("삭제기능: 클릭시 가져온 값 확인 테스트 : " + value);
+        // 실제 멤버의 아이디를 , int 타입으로 변환.
+        // 전역으로 사용할 , 변환된 ID를 따로 선언
+        int member_id;
+        if (value instanceof Integer) {
+            member_id = ((Integer) value).intValue();
+            System.out.println("삭제기능: 선택된 ID 정수화 : " + member_id);
+        }
+        member_id = ((Integer) value).intValue();
+        System.out.println("삭제기능: 선택된 ID 정수화 2: " + member_id);
+        // ===================================================================
 
         // 회원 수정 확인 버튼 누를 경우, 확인 알림창 띄우기.
         // 확인 버튼 클릭 -> JOptionPane.showConfirmDialog() -> 특정 값을 반환.
@@ -417,10 +419,24 @@ public class _4SignupFrame extends JFrame {
         if (result == JOptionPane.YES_OPTION) {
             // 리스트에 해당 멤버 삭제,
             // members.remove(row);
-            service.getMembers().remove(row);
-            service.saveMembersToFile();
+
+            // 변경전, 0618, 삭제 작업
+            // service.getMembers().remove(row);
+            // service.saveMembersToFile();
+            // // 변경사항 새로고침, 즉 다 지우고, 전체 회원을 다시 그리기.
+            // service.refreshTable();
+
+            // 변경후, 0618, 삭제 작업,
+            // 1) member_id로 디비에서, 회원을 삭제후,
+            // 화면에서 호출 -> 서비스 삭제기능 호출 -> dao 삭제기능 호출
+            service.deleteMember(member_id);
+            // 2) 다시 변경된 내용을 불러오기, 재사용.
+            // 회원 변경 후, 디비에서 변경된 데이터를 다시 불러오기
+            service.loadMembersFromDB();
+            // 3) 새로 고침. 재사용
             // 변경사항 새로고침, 즉 다 지우고, 전체 회원을 다시 그리기.
             service.refreshTable();
+
         }
     }
 

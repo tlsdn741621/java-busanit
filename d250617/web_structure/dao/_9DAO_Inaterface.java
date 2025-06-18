@@ -41,6 +41,7 @@ public interface _9DAO_Inaterface {
     _10Member findById(int id);
 
     // 3) 회원 추가
+    // 화면에서 입력 받은 정보 -> member -> 디비 입력 -> true
     boolean insert(_10Member member);
 
     // 4) 회원 수정
@@ -50,6 +51,9 @@ public interface _9DAO_Inaterface {
     boolean delete(int id);
 
     // 6) 회원 검색
-    _10Member findByName(String name);
+    // 0618, 검색 작업 중1
+    // 리턴을 한명의 인스턴스만 받구나, 수정하자, 리스트로
+    // _10Member findByName(String name);
+    List<_10Member> findByName(String name);
 
 }
